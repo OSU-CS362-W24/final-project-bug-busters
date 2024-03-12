@@ -206,7 +206,7 @@ module.exports = function runChartBuilder(type) {
         const labelElem = document.createElement("label")
         labelElem.classList.add(`${lowerXOrY}-value`)
         const inputType = (type === "bar" && lowerXOrY === "x") ? "" : "type='number'"
-        labelElem.innerHTML = `${upperXOrY} <input ${inputType} class="${lowerXOrY}-value-input" />`
+        labelElem.innerHTML = `${upperXOrY} <input ${inputType} class="${lowerXOrY}-value-input" data-testid="${lowerXOrY}-${xValueInputs.length}"/>`
         return labelElem
     }
 
