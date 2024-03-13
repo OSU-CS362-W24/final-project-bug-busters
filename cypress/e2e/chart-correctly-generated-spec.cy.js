@@ -17,7 +17,7 @@ describe("E2E tests for charts being correctly generated...", () => {
 
     cy.findByRole("button", { name: "Generate chart" }).click()
 
-    cy.findByTestId("chart-display").should("not.be.empty")
+    cy.findByRole("img").should("have.attr", "src")
   })
   
   it("Make sure chart is correctly generated on scatter page...", () => {
@@ -34,7 +34,7 @@ describe("E2E tests for charts being correctly generated...", () => {
 
     cy.findByRole("button", { name: "Generate chart" }).click()
 
-    cy.findByTestId("chart-display").should("not.be.empty")
+    cy.findByRole("img").should("have.attr", "src")
   })
 
   it("Make sure chart is correctly generated on bar page...", () => {
@@ -51,7 +51,7 @@ describe("E2E tests for charts being correctly generated...", () => {
 
     cy.findByRole("button", { name: "Generate chart" }).click()
 
-    cy.findByTestId("chart-display").should("not.be.empty")
+    cy.findByRole("img").should("have.attr", "src")
   })
 
 })
