@@ -10,10 +10,10 @@ describe("E2E tests for charts being correctly generated...", () => {
 
     cy.addChartTitleAndLabels("Dogs vs. Cats", "Dogs", "Cats")
 
-    cy.addFirstDataPoint("3", "4")
-    cy.addAdditionalDataPoint("5", "6", 1)
-    cy.addAdditionalDataPoint("7", "8", 2)
-    cy.addAdditionalDataPoint("1", "6", 3)
+    cy.addDataPoint("3", "4", 0)
+    cy.addDataPoint("5", "6", 1)
+    cy.addDataPoint("7", "8", 2)
+    cy.addDataPoint("1", "6", 3)
 
     cy.findByRole("button", { name: "Generate chart" }).click()
 
@@ -27,10 +27,10 @@ describe("E2E tests for charts being correctly generated...", () => {
 
     cy.addChartTitleAndLabels("Dogs vs. Cats", "Dogs", "Cats")
 
-    cy.addFirstDataPoint("3", "4")
-    cy.addAdditionalDataPoint("5", "6", 1)
-    cy.addAdditionalDataPoint("7", "8", 2)
-    cy.addAdditionalDataPoint("1", "6", 3)
+    cy.addDataPoint("3", "4", 0)
+    cy.addDataPoint("5", "6", 1)
+    cy.addDataPoint("7", "8", 2)
+    cy.addDataPoint("1", "6", 3)
 
     cy.findByRole("button", { name: "Generate chart" }).click()
 
@@ -44,10 +44,10 @@ describe("E2E tests for charts being correctly generated...", () => {
 
     cy.addChartTitleAndLabels("Dogs vs. Cats", "Dogs", "Cats")
 
-    cy.addFirstDataPoint("3", "4")
-    cy.addAdditionalDataPoint("5", "6", 1)
-    cy.addAdditionalDataPoint("7", "8", 2)
-    cy.addAdditionalDataPoint("1", "6", 3)
+    cy.addDataPoint("3", "4", 0)
+    cy.addDataPoint("5", "6", 1)
+    cy.addDataPoint("7", "8", 2)
+    cy.addDataPoint("1", "6", 3)
 
     cy.findByRole("button", { name: "Generate chart" }).click()
 
