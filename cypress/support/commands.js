@@ -32,14 +32,9 @@ Cypress.Commands.add("addChartTitleAndLabels", (title, xLabel, yLabel) => {
   cy.findByLabelText("Y label").type(yLabel)
 })
 
-Cypress.Commands.add("addFirstDataPoint", (x, y) => {
-    cy.findByLabelText("X").type(x)
-    cy.findByLabelText("Y").type(y)
-})
+Cypress.Commands.add("addDataPoint", (x, y, index) => {
+  cy.findByTestId(`x-${index}`).type(x)
+  cy.findByTestId(`y-${index}`).type(y)
 
-Cypress.Commands.add("addAdditionalDataPoint", (x, y, index) => {
-    cy.findByRole("button", { name: "+" }).click()
-
-    cy.findByTestId(`x-${index}`).type(x)
-    cy.findByTestId(`y-${index}`).type(y)
+  cy.findByRole("button", { name: "+" }).click()
 })

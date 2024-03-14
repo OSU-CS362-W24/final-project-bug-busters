@@ -10,14 +10,14 @@ describe("E2E tests for charts being correctly generated...", () => {
 
     cy.addChartTitleAndLabels("Dogs vs. Cats", "Dogs", "Cats")
 
-    cy.addFirstDataPoint("3", "4")
-    cy.addAdditionalDataPoint("5", "6", 1)
-    cy.addAdditionalDataPoint("7", "8", 2)
-    cy.addAdditionalDataPoint("1", "6", 3)
+    cy.addDataPoint("3", "4", 0)
+    cy.addDataPoint("5", "6", 1)
+    cy.addDataPoint("7", "8", 2)
+    cy.addDataPoint("1", "6", 3)
 
     cy.findByRole("button", { name: "Generate chart" }).click()
 
-    cy.findByTestId("chart-display").should("not.be.empty")
+    cy.findByRole("img").should("have.attr", "src")
   })
   
   it("Make sure chart is correctly generated on scatter page...", () => {
@@ -27,14 +27,14 @@ describe("E2E tests for charts being correctly generated...", () => {
 
     cy.addChartTitleAndLabels("Dogs vs. Cats", "Dogs", "Cats")
 
-    cy.addFirstDataPoint("3", "4")
-    cy.addAdditionalDataPoint("5", "6", 1)
-    cy.addAdditionalDataPoint("7", "8", 2)
-    cy.addAdditionalDataPoint("1", "6", 3)
+    cy.addDataPoint("3", "4", 0)
+    cy.addDataPoint("5", "6", 1)
+    cy.addDataPoint("7", "8", 2)
+    cy.addDataPoint("1", "6", 3)
 
     cy.findByRole("button", { name: "Generate chart" }).click()
 
-    cy.findByTestId("chart-display").should("not.be.empty")
+    cy.findByRole("img").should("have.attr", "src")
   })
 
   it("Make sure chart is correctly generated on bar page...", () => {
@@ -44,14 +44,14 @@ describe("E2E tests for charts being correctly generated...", () => {
 
     cy.addChartTitleAndLabels("Dogs vs. Cats", "Dogs", "Cats")
 
-    cy.addFirstDataPoint("3", "4")
-    cy.addAdditionalDataPoint("5", "6", 1)
-    cy.addAdditionalDataPoint("7", "8", 2)
-    cy.addAdditionalDataPoint("1", "6", 3)
+    cy.addDataPoint("3", "4", 0)
+    cy.addDataPoint("5", "6", 1)
+    cy.addDataPoint("7", "8", 2)
+    cy.addDataPoint("1", "6", 3)
 
     cy.findByRole("button", { name: "Generate chart" }).click()
 
-    cy.findByTestId("chart-display").should("not.be.empty")
+    cy.findByRole("img").should("have.attr", "src")
   })
 
 })

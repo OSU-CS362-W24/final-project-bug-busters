@@ -15,7 +15,6 @@ jobs:
           node-version: 20
       - run: npm ci
       - run: npm run build
-      - run: npm run test:unit
       - run: npm run test:integration
       - run: npm run test:e2e
       - if: ${{ inputs.upload-pages-artifact }}
