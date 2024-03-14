@@ -40,19 +40,7 @@ test("sortPoints unit test for valid array of points", function() {
     expect(sort).toEqual(postSort)
 })
 
-// test("sortPoints unit test for valid array of points (with duplicate x values)", function() {
-//     const preSort = [
-//         { x: 3, y: 5},
-//         { x: 1, y: 8},
-//         { x: 2, y: 4}
-//     ]
-
-//     const postSort = [
-//         { x: 1, y: 8},
-//         { x: 2, y: 4},
-//         { x: 3, y: 5}
-//     ]
-
-//     const sort = sortPoints(preSort)
-//     expect(sort).toEqual(postSort)
-// })
+test("sortPoints unit test for valid array of points (empty array)", function() {
+    const sort = sortPoints([])
+    expect(sort).toEqual([])
+})
