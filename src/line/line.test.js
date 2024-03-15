@@ -59,7 +59,7 @@ describe("Integration tests for adding values in the chart builder...", () => {
 })
 
 describe("Integration tests for alerts being displayed with a missing chart", () => {
-  test("clicks generate button with all sections blank should display alert", async () => {
+  test("clicks generate button with all sections blank should display no data at all alert", async () => {
     //mock window.alert
     const mockAlert = jest.spyOn(window, "alert").mockImplementation(() => {})
 
@@ -72,6 +72,29 @@ describe("Integration tests for alerts being displayed with a missing chart", ()
     //Act 
     const user = userEvent.setup()
     await user.click(resetButton)
+    await user.click(generateButton)
+
+    //Assert
+    expect(mockAlert).toHaveBeenCalledWith("Error: No data specified!")
+
+    mockAlert.mockRestore()
+  })
+
+  test("clicks generate button with only x label should display no data at all alert", async () => {
+    //mock window.alert
+    const mockAlert = jest.spyOn(window, "alert").mockImplementation(() => {})
+
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`) 
+
+    //get the buttons and text boxes
+    const generateButton = domTesting.getByText(document, "Generate chart")
+    const resetButton = domTesting.getByText(document, "Clear chart data")
+    const xLabel = domTesting.getByLabelText(document, "X label")
+    
+    //Act 
+    const user = userEvent.setup()
+    await user.click(resetButton)
+    await user.type(xLabel, "Test")
     await user.click(generateButton)
 
     //Assert
