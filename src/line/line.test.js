@@ -61,7 +61,7 @@ describe("Integration tests for adding values in the chart builder...", () => {
 describe("Integration tests for alerts being displayed with a missing chart", () => {
   test("clicks generate button with all sections blank should display no data at all alert", async () => {
     //mock window.alert
-    const mockAlert = jest.spyOn(window, "alert").mockImplementation(() => {})
+    const spy = jest.spyOn(window, "alert").mockImplementation(() => {})
 
     initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`) 
 
@@ -75,14 +75,14 @@ describe("Integration tests for alerts being displayed with a missing chart", ()
     await user.click(generateButton)
 
     //Assert
-    expect(mockAlert).toHaveBeenCalledWith("Error: No data specified!")
+    expect(spy).toHaveBeenCalledWith("Error: No data specified!")
 
-    mockAlert.mockRestore()
+    spy.mockRestore()
   })
 
   test("clicks generate button with only x label should display no data at all alert", async () => {
     //mock window.alert
-    const mockAlert = jest.spyOn(window, "alert").mockImplementation(() => {})
+    const spy = jest.spyOn(window, "alert").mockImplementation(() => {})
 
     initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`) 
 
@@ -98,14 +98,14 @@ describe("Integration tests for alerts being displayed with a missing chart", ()
     await user.click(generateButton)
 
     //Assert
-    expect(mockAlert).toHaveBeenCalledWith("Error: No data specified!")
+    expect(spy).toHaveBeenCalledWith("Error: No data specified!")
 
-    mockAlert.mockRestore()
+    spy.mockRestore()
   })
 
   test("clicks generate button with only y label should display no data at all alert", async () => {
     //mock window.alert
-    const mockAlert = jest.spyOn(window, "alert").mockImplementation(() => {})
+    const spy = jest.spyOn(window, "alert").mockImplementation(() => {})
 
     initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`) 
 
@@ -121,8 +121,8 @@ describe("Integration tests for alerts being displayed with a missing chart", ()
     await user.click(generateButton)
 
     //Assert
-    expect(mockAlert).toHaveBeenCalledWith("Error: No data specified!")
+    expect(spy).toHaveBeenCalledWith("Error: No data specified!")
 
-    mockAlert.mockRestore()
+    spy.mockRestore()
   })
 })
