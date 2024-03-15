@@ -60,7 +60,7 @@ describe("Integration tests for adding values in the chart builder...", () => {
 
 describe("Integration tests for alerts being displayed with a missing chart", () => {
   test("clicks generate button with all sections blank should display no data at all alert", async () => {
-    //mock window.alert
+    //spy on function
     const spy = jest.spyOn(window, "alert").mockImplementation(() => {})
 
     initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`) 
@@ -81,7 +81,7 @@ describe("Integration tests for alerts being displayed with a missing chart", ()
   })
 
   test("clicks generate button with only x label should display no data at all alert", async () => {
-    //mock window.alert
+    //spy on function
     const spy = jest.spyOn(window, "alert").mockImplementation(() => {})
 
     initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`) 
@@ -104,7 +104,7 @@ describe("Integration tests for alerts being displayed with a missing chart", ()
   })
 
   test("clicks generate button with only y label should display no data at all alert", async () => {
-    //mock window.alert
+    //spy on function
     const spy = jest.spyOn(window, "alert").mockImplementation(() => {})
 
     initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`) 
@@ -122,6 +122,56 @@ describe("Integration tests for alerts being displayed with a missing chart", ()
 
     //Assert
     expect(spy).toHaveBeenCalledWith("Error: No data specified!")
+
+    spy.mockRestore()
+  })
+
+  test("clicks generate button with both x and y label should display no data at all alert", async () => {
+    //spy on function
+    const spy = jest.spyOn(window, "alert").mockImplementation(() => {})
+
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`) 
+
+    //get the buttons and text boxes
+    const generateButton = domTesting.getByText(document, "Generate chart")
+    const resetButton = domTesting.getByText(document, "Clear chart data")
+    const xLabel = domTesting.getByLabelText(document, "X label")
+    const yLabel = domTesting.getByLabelText(document, "Y label")
+    
+    //Act 
+    const user = userEvent.setup()
+    await user.click(resetButton)
+    await user.type(xLabel, "Test")
+    await user.type(yLabel, "Test")
+    await user.click(generateButton)
+
+    //Assert
+    expect(spy).toHaveBeenCalledWith("Error: No data specified!")
+
+    spy.mockRestore()
+  })
+
+  test("clicks generate button with data but no labels displays no data alert", async () => {
+    //spy on function
+    const spy = jest.spyOn(window, "alert").mockImplementation(() => {})
+
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`) 
+
+    //get the buttons and text boxes
+    const generateButton = domTesting.getByText(document, "Generate chart")
+    const resetButton = domTesting.getByText(document, "Clear chart data")
+    
+    //Act 
+    const user = userEvent.setup()
+    await user.click(resetButton)
+    const xValue = domTesting.getByTestId(document, "x-0")
+    const yValue = domTesting.getByTestId(document, "y-0")
+    await user.type(xValue, "9")
+    await user.type(yValue, "9")
+    await user.click(generateButton)
+
+    //Assert
+    expect(spy).toHaveBeenCalledWith("Error: Must specify a label for both X and Y!")
 
     spy.mockRestore()
   })
