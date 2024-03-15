@@ -57,3 +57,26 @@ describe("Integration tests for adding values in the chart builder...", () => {
     expect(domTesting.getByTestId(document, "y-3")).not.toBeNull()
   })
 })
+
+describe("Integration tests for alerts being displayed with a missing chart", () => {
+  test("clicks generate button with all sections blank should display alert", async () => {
+    //mock window.alert
+    const mockAlert = jest.spyOn(window, "alert").mockImplementation(() => {})
+
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`) 
+
+    //get the buttons and text boxes
+    const generateButton = domTesting.getByText(document, "Generate chart")
+    const resetButton = domTesting.getByText(document, "Clear chart data")
+    
+    //Act 
+    const user = userEvent.setup()
+    await user.click(resetButton)
+    await user.click(generateButton)
+
+    //Assert
+    expect(mockAlert).toHaveBeenCalledWith("Error: No data specified!")
+
+    mockAlert.mockRestore()
+  })
+})
