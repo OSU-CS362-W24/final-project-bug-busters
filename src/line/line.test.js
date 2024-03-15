@@ -102,4 +102,27 @@ describe("Integration tests for alerts being displayed with a missing chart", ()
 
     mockAlert.mockRestore()
   })
+
+  test("clicks generate button with only y label should display no data at all alert", async () => {
+    //mock window.alert
+    const mockAlert = jest.spyOn(window, "alert").mockImplementation(() => {})
+
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`) 
+
+    //get the buttons and text boxes
+    const generateButton = domTesting.getByText(document, "Generate chart")
+    const resetButton = domTesting.getByText(document, "Clear chart data")
+    const yLabel = domTesting.getByLabelText(document, "Y label")
+    
+    //Act 
+    const user = userEvent.setup()
+    await user.click(resetButton)
+    await user.type(yLabel, "Test")
+    await user.click(generateButton)
+
+    //Assert
+    expect(mockAlert).toHaveBeenCalledWith("Error: No data specified!")
+
+    mockAlert.mockRestore()
+  })
 })
