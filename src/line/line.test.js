@@ -229,4 +229,29 @@ describe("Integration tests for alerts being displayed with a missing chart", ()
 
     spy.mockRestore()
   })  
+
+  test("clicks generate button with one of each (label and data) is missing should display no label alert", async () => {
+    //spy on function
+    const spy = jest.spyOn(window, "alert").mockImplementation(() => {})
+
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`) 
+
+    //get the buttons and text boxes
+    const generateButton = domTesting.getByText(document, "Generate chart")
+    const resetButton = domTesting.getByText(document, "Clear chart data")
+    const xLabel = domTesting.getByLabelText(document, "X label")
+    
+    //Act 
+    const user = userEvent.setup()
+    await user.click(resetButton)
+    const xValue = domTesting.getByTestId(document, "x-0")
+    await user.type(xValue, "9")
+    await user.type(xLabel, "Test")
+    await user.click(generateButton)
+
+    //Assert
+    expect(spy).toHaveBeenCalledWith("Error: Must specify a label for both X and Y!")
+
+    spy.mockRestore()
+  })  
 })
