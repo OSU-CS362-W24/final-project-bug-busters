@@ -10,6 +10,7 @@ const userEvent = require("@testing-library/user-event").default
 const initDomFromFiles = require("../../test-utils/initDomFromFiles.js")
 
 
+
 describe("Integration tests for adding values in the chart builder...", () => {
   test("Testing functionality of add button in chart builder with multiple adds...", async () => {
     initDomFromFiles(
@@ -57,6 +58,8 @@ describe("Integration tests for adding values in the chart builder...", () => {
     expect(domTesting.getByTestId(document, "y-3")).not.toBeNull()
   })
 })
+
+
 
 describe("Integration tests for alerts being displayed with a missing chart", () => {
   test("clicks generate button with all sections blank should display no data at all alert", async () => {
@@ -254,4 +257,88 @@ describe("Integration tests for alerts being displayed with a missing chart", ()
 
     spy.mockRestore()
   })  
+})
+
+
+
+describe("Integration tests for clearing chart data", function() {
+  test('Clicking "clear chart data" clears the chart title', async() => {
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`) 
+
+    const user = userEvent.setup()
+    const clearChartButton = domTesting.getByText(document, "Clear chart data")
+    const chartTitle = domTesting.getAllByRole(document, 'textbox')[0]          //Returns a list of 3 inputs. Title is the first
+
+    await user.type(chartTitle, "Title")                                        //Have the "user" type a title
+    expect(domTesting.getAllByRole(document, 'textbox')[0].value).toBe("Title") //Check the title has changed
+
+    await user.click(clearChartButton)                                          //Click "Clear chart data" button
+    expect(domTesting.getAllByRole(document, 'textbox')[0].value).toBe("")      //Verify the data has been cleared
+  })
+
+  test('Clicking "clear chart data" clears the chart color', async() => {
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`) 
+
+    const user = userEvent.setup()
+    const clearChartButton = domTesting.getByText(document, "Clear chart data")
+    const chartColor = document.getElementById('chart-color-input')
+
+    domTesting.fireEvent.input(chartColor, {target: {value: '#ffffff'}})        //Change the color value to white
+    expect(document.getElementById('chart-color-input').value).toBe("#ffffff")  //Verify the change
+
+    await user.click(clearChartButton)                                          //Click clear button
+    expect(document.getElementById('chart-color-input').value).toBe("#ff4500")  //Check the data was cleared (#ff4500 -- red-ish -- is the base value)
+  })
+
+  test('Clicking "clear chart data" clears the chart X and Y labels', async() => {
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`) 
+
+    const user = userEvent.setup()
+    const clearChartButton = domTesting.getByText(document, "Clear chart data")
+    const chartX = domTesting.getAllByRole(document, 'textbox')[1];             //Get the X and Y labels. These are the other two labels mentioned above, thus index's 1 and 2
+    const chartY = domTesting.getAllByRole(document, 'textbox')[2];
+
+    await user.type(chartX, "X")                                                //Type label and verify 
+    expect(domTesting.getAllByRole(document, 'textbox')[1].value).toBe("X")
+    
+    await user.type(chartY, "Y")
+    expect(domTesting.getAllByRole(document, 'textbox')[2].value).toBe("Y")
+
+    await user.click(clearChartButton)                                          //Clear and verify both are blank
+    expect(domTesting.getAllByRole(document, 'textbox')[1].value).toBe("")
+    expect(domTesting.getAllByRole(document, 'textbox')[2].value).toBe("")
+  })
+
+  test('Clicking "clear chart data" clears the chart X and Y values', async() => {
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`) 
+
+    const user = userEvent.setup()
+    const clearChartButton = domTesting.getByText(document, "Clear chart data")
+    const x1 = domTesting.getAllByRole(document, 'spinbutton')[0];              //At base, there are 2 spinbuttons, the original X and Y inputs
+    const y1 = domTesting.getAllByRole(document, 'spinbutton')[1];
+
+    await user.type(x1, "1")                                                    //Type and verify
+    expect(domTesting.getAllByRole(document, 'spinbutton')[0]).toHaveValue(1)
+    
+    await user.type(y1, "2")
+    expect(domTesting.getAllByRole(document, 'spinbutton')[1]).toHaveValue(2)
+
+    await user.click(clearChartButton)                                          //Clear and verify
+    expect(domTesting.getAllByRole(document, 'spinbutton')[0]).toHaveValue(null)
+    expect(domTesting.getAllByRole(document, 'spinbutton')[1]).toHaveValue(null)
+  })
+
+  test('Clicking "clear chart data" reset the page to one pair of X-Y values', async() => {
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`) 
+
+    const user = userEvent.setup()
+    const clearChartButton = domTesting.getByText(document, "Clear chart data")
+    const addRowButton = domTesting.getByText(document, "+")
+
+    await user.click(addRowButton)                                              //Add a row
+    expect(domTesting.getAllByRole(document, 'spinbutton').length).toBe(4)      //If a row was added, the number of spinbutton inputs should be the previous amount plus two (in this case 4)
+
+    await user.click(clearChartButton)                                          //Clear
+    expect(domTesting.getAllByRole(document, 'spinbutton').length).toBe(2)      //Check that the number of spinbuttons has been decreased back to the original size (2)
+  })
 })
