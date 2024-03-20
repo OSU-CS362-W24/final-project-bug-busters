@@ -79,8 +79,9 @@ test("generateChartImg does not have y label (Line)", async () => {
 });
 
 test("generateChartImg does not y label (Line)", async () => {
-	const type = "line"; 
-	const data = [{}]; // Omi
+	const type = "line";
+	// Omitting data to trigger error
+	const data = [{}];
 	const xLabel = "X Axis";
 	const yLabel = "Y Axis";
 
@@ -95,7 +96,6 @@ test("generateChartImg does not y label (Line)", async () => {
 test("generateChartImg does not have both x and y labels (Scatter)", async () => {
 	const type = "scatter"; 
 	const data = [{ x: 1, y: 2 }];
-	// Omitting labels intentionally to trigger an error
 	const xLabel = undefined;
 	const yLabel = undefined;
 
@@ -137,7 +137,6 @@ test("generateChartImg does not have y label (Scatter)", async () => {
 
 test("generateChartImg does not y label (Scatter)", async () => {
 	const type = "scatter";
-	// Omitting data to trigger error
 	const data = [{}];
 	const xLabel = "X Axis";
 	const yLabel = "Y Axis";
